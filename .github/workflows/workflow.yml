@@ -139,7 +139,7 @@ jobs:
         if: runner.os == 'Linux'
       - run: df -h
         if: runner.os == 'Linux'
-      - run: df /dev/root -h
+      - run: du --human-readable /dev/root
         if: runner.os == 'Linux'
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
