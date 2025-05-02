@@ -172,8 +172,8 @@ jobs:
           sudo rm -rf /etc/skel/
 
         if: runner.os == 'Linux'
-      - run: sudo du /
-        if: runner.os == 'Linux'
+      # - run: sudo du /
+      # if: runner.os == 'Linux'
       - run: df -h
         if: runner.os == 'Linux'
       - uses: actions/checkout@v4
