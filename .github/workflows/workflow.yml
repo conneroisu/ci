@@ -126,6 +126,8 @@ jobs:
     steps:
       - run: df -h
         if: runner.os == 'Linux'
+      - run: sudo du /dev/root/
+        if: runner.os == 'Linux'
       - name: "node-cleanup"
         run: |
           sudo rm -rf /usr/share/dotnet
@@ -171,12 +173,8 @@ jobs:
           sudo rm -rf /etc/skel/
 
         if: runner.os == 'Linux'
-      # - run: sudo du /
-      # if: runner.os == 'Linux'
-      - run: df -h
-        if: runner.os == 'Linux'
-      - run: sudo du /dev/root/
-        if: runner.os == 'Linux'
+      # - run: df -h
+      #   if: runner.os == 'Linux'
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
         with:
