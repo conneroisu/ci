@@ -157,6 +157,19 @@ jobs:
           sudo rm -rf /opt/pipx/
           sudo rm -rf /home/linuxbrew/
           sudo rm -rf /var/lib/gems/
+          sudo rm -rf /var/lib/postgresql/
+          sudo rm -rf /var/lib/mysql/
+          sudo rm -rf /var/lib/snapd/
+          sudo rm -rf /var/cache/man/
+          sudo rm -rf /home/runner/runners/2.323.0/externals/node*
+          sudo rm -rf /home/runner/.nvm/
+          sudo rm -rf /home/runner/.dotnet/
+          sudo rm -rf /home/runneradmin/.rustup/
+          sudo rm -rf /home/runneradmin/.cargo/
+          sudo rm -rf /etc/php/
+          sudo rm -rf /etc/.java
+          sudo rm -rf /etc/vim
+          sudo rm -rf /etc/skel/
 
         if: runner.os == 'Linux'
       - run: sudo du /
