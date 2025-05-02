@@ -126,18 +126,18 @@ jobs:
     steps:
       - run: df -h
         if: runner.os == 'Linux'
-      - run: sudo du /
-        if: runner.os == 'Linux'
+      # - run: sudo du /
+      #   if: runner.os == 'Linux'
       - name: "node-cleanup"
         run: |
+          sudo docker image prune --all --force
+          sudo docker builder prune -a
+          sudo apt-get clean
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           sudo rm -rf /usr/local/share/boost
-          sudo docker image prune --all --force
-          sudo docker builder prune -a
-          sudo apt-get clean
           sudo rm -rf /opt/microsoft
           sudo rm -rf /usr/local/aws-cli/
           sudo rm -rf /usr/local/n/versions/
@@ -145,6 +145,10 @@ jobs:
           sudo rm -rf /usr/local/share/powershell/
           sudo rm -rf /usr/local/lib/node_modules/
           sudo rm -rf /usr/local/julia*
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/.ghcup/
+          sudo rm -rf /opt/hostedtoolcache/node/18.20.8
+          sudo rm -rf /usr/share/swift/
           sudo rm -rf /usr/share/miniconda/
           sudo rm -rf /usr/share/icons/
           sudo rm -rf /usr/share/perl*
@@ -154,7 +158,16 @@ jobs:
           sudo rm -rf /usr/lib/rpm/
           sudo rm -rf /usr/lib/python3/
           sudo rm -rf /usr/lib/jvm/
+          sudo rm -rf /usr/lib/x86_64-linux-gnu
+          sudo rm -rf /usr/lib/llvm-18
+          sudo rm -rf /usr/lib/llvm-16
+          sudo rm -rf /usr/lib/llvm-17
           sudo rm -rf /usr/lib/google-cloud-sdk/
+          sudo rm -rf /usr/lib/dotnet
+          sudo rm -rf /usr/lib/python3
+          sudo rm -rf /var/lib/mecab
+          sudo rm -rf /var/log/
+          sudo rm -rf /usr/share/kotlinc/lib
           sudo rm -rf /opt/az/
           sudo rm -rf /opt/pipx/
           sudo rm -rf /home/linuxbrew/
@@ -171,10 +184,11 @@ jobs:
           sudo rm -rf /etc/.java
           sudo rm -rf /etc/vim
           sudo rm -rf /etc/skel/
+          sudo rm -rf /usr/include/
 
         if: runner.os == 'Linux'
-      # - run: df -h
-      #   if: runner.os == 'Linux'
+      - run: df -h
+        if: runner.os == 'Linux'
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
         with:
