@@ -175,6 +175,8 @@ jobs:
       # if: runner.os == 'Linux'
       - run: df -h
         if: runner.os == 'Linux'
+      - run: sudo du /
+        if: runner.os == 'Linux'
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
         with:
