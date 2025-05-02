@@ -126,7 +126,7 @@ jobs:
     steps:
       - run: df -h
         if: runner.os == 'Linux'
-      - run: sudo du /dev/root/
+      - run: sudo du /
         if: runner.os == 'Linux'
       - name: "node-cleanup"
         run: |
