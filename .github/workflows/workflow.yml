@@ -190,7 +190,6 @@ jobs:
             /etc/skel/ \
             /usr/include/ \
             -mindepth 0 -maxdepth 0 2>/dev/null | xargs -r sudo rm -rf
-        if: runner.os == 'Linux'
       - run: df -h
         if: runner.os == 'Linux'
       - uses: actions/checkout@v4
