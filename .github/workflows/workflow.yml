@@ -136,7 +136,7 @@ jobs:
           sudo docker image prune --all --force
           sudo docker builder prune -a
           sudo apt-get clean
-          
+
           # Create a list of directories to remove and remove them all at once
           sudo find \
             /usr/share/dotnet \
