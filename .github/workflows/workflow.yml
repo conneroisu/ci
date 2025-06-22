@@ -96,6 +96,10 @@ jobs:
       # disabled pending strategy discussion on exposing tunables
       # - uses: Determinatesystems/flake-checker-action@main
       - uses: DeterminateSystems/determinate-nix-action@v3
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes
+            lazy-trees = true
       - uses: DeterminateSystems/flakehub-cache-action@main
       - uses: webfactory/ssh-agent@v0.9.0
         if: ${{ inputs.enable-ssh-agent }}
@@ -103,6 +107,11 @@ jobs:
           ssh-private-key: ${{ secrets.ssh-private-key }}
       - name: Inventory the flake for targeted systems
         id: inventory
+        uses: DeterminateSystems/determinate-nix-action@v3
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes
+            lazy-trees = true
         env:
           FLAKE_ITER_RUNNER_MAP: ${{ toJson(fromJson(inputs.runner-map)) }}
           FLAKE_ITER_FLAKEREF: ${{ inputs.flake-iter-flakeref }}
@@ -134,6 +143,56 @@ jobs:
           sudo docker image prune --all --force
           sudo docker builder prune -a
           sudo apt-get clean
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /opt/microsoft
+          sudo rm -rf /usr/local/aws-cli/
+          sudo rm -rf /usr/local/n/versions/
+          sudo rm -rf /usr/local/aws-sam-cli/
+          sudo rm -rf /usr/local/share/powershell/
+          sudo rm -rf /usr/local/lib/node_modules/
+          sudo rm -rf /usr/local/julia*
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/.ghcup/
+          sudo rm -rf /opt/hostedtoolcache/node/18.20.8
+          sudo rm -rf /usr/share/swift/
+          sudo rm -rf /usr/share/miniconda/
+          sudo rm -rf /usr/share/icons/
+          sudo rm -rf /usr/share/perl*
+          sudo rm -rf /usr/share/maven-repo/
+          sudo rm -rf /usr/share/vim/
+          sudo rm -rf /usr/lib/ruby/
+          sudo rm -rf /usr/lib/rpm/
+          sudo rm -rf /usr/lib/python3/
+          sudo rm -rf /usr/lib/jvm/
+          sudo rm -rf /usr/lib/llvm-17
+          sudo rm -rf /usr/lib/llvm-16
+          sudo rm -rf /usr/lib/google-cloud-sdk/
+          sudo rm -rf /usr/lib/dotnet
+          sudo rm -rf /usr/lib/python3
+          sudo rm -rf /var/lib/mecab
+          sudo rm -rf /var/log/
+          sudo rm -rf /usr/share/kotlinc/lib
+          sudo rm -rf /opt/az/
+          sudo rm -rf /opt/pipx/
+          sudo rm -rf /home/linuxbrew/
+          sudo rm -rf /var/lib/gems/
+          sudo rm -rf /var/lib/postgresql/
+          sudo rm -rf /var/lib/mysql/
+          sudo rm -rf /var/lib/snapd/
+          sudo rm -rf /var/cache/man/
+          sudo rm -rf /home/runner/.nvm/
+          sudo rm -rf /home/runner/.dotnet/
+          sudo rm -rf /home/runneradmin/.rustup/
+          sudo rm -rf /home/runneradmin/.cargo/
+          sudo rm -rf /etc/php/
+          sudo rm -rf /etc/.java
+          sudo rm -rf /etc/vim
+          sudo rm -rf /etc/skel/
+          sudo rm -rf /usr/include/
 
           # Create a list of directories to remove and remove them all at once
           sudo find \
@@ -191,13 +250,17 @@ jobs:
       - run: df -h
         if: runner.os == 'Linux'
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/determinate-nix-action@v3
       - uses: DeterminateSystems/flakehub-cache-action@main
       - uses: webfactory/ssh-agent@v0.9.0
         if: ${{ inputs.enable-ssh-agent }}
         with:
           ssh-private-key: ${{ secrets.ssh-private-key }}
       - name: Build for ${{ matrix.systems.nix-system }}
+        uses: DeterminateSystems/determinate-nix-action@v3
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes
+            lazy-trees = true
         env:
           FLAKE_ITER_NIX_SYSTEM: ${{ matrix.systems.nix-system }}
           FLAKE_ITER_FLAKEREF: ${{ inputs.flake-iter-flakeref }}
@@ -217,6 +280,7 @@ jobs:
       flake_version: ${{ steps.publish.outputs.flake_version }}
       flakeref_exact: ${{ steps.publish.outputs.flakeref_exact }}
       flakeref_at_least: ${{ steps.publish.outputs.flakeref_at_least }}
+
     steps:
       - run: "true"
       - run: |
@@ -229,6 +293,10 @@ jobs:
         if: ${{ !github.repository.fork && inputs.visibility != '' && (github.ref == format('refs/heads/{0}', inputs.default-branch) || startsWith(github.ref, 'refs/tags/')) }}
       - uses: DeterminateSystems/determinate-nix-action@v3
         if: ${{ !github.repository.fork && inputs.visibility != '' && (github.ref == format('refs/heads/{0}', inputs.default-branch) || startsWith(github.ref, 'refs/tags/')) }}
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes
+            lazy-trees = true
       - uses: DeterminateSystems/flakehub-cache-action@main
         if: ${{ !github.repository.fork && inputs.visibility != '' && (github.ref == format('refs/heads/{0}', inputs.default-branch) || startsWith(github.ref, 'refs/tags/')) }}
       - uses: DeterminateSystems/flakehub-push@main
