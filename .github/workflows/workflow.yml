@@ -105,13 +105,13 @@ jobs:
         if: ${{ inputs.enable-ssh-agent }}
         with:
           ssh-private-key: ${{ secrets.ssh-private-key }}
-      - name: Inventory the flake for targeted systems
-        id: inventory
-        uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: DeterminateSystems/determinate-nix-action@v3
         with:
           extra-conf: |
             experimental-features = nix-command flakes
             lazy-trees = true
+      - name: Inventory the flake for targeted systems
+        id: inventory
         env:
           FLAKE_ITER_RUNNER_MAP: ${{ toJson(fromJson(inputs.runner-map)) }}
           FLAKE_ITER_FLAKEREF: ${{ inputs.flake-iter-flakeref }}
@@ -250,17 +250,19 @@ jobs:
       - run: df -h
         if: runner.os == 'Linux'
       - uses: actions/checkout@v4
+      - uses: DeterminateSystems/determinate-nix-action@v3
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes
+            lazy-trees = true
       - uses: DeterminateSystems/flakehub-cache-action@main
       - uses: webfactory/ssh-agent@v0.9.0
         if: ${{ inputs.enable-ssh-agent }}
         with:
           ssh-private-key: ${{ secrets.ssh-private-key }}
+      
       - name: Build for ${{ matrix.systems.nix-system }}
-        uses: DeterminateSystems/determinate-nix-action@v3
-        with:
-          extra-conf: |
-            experimental-features = nix-command flakes
-            lazy-trees = true
+    
         env:
           FLAKE_ITER_NIX_SYSTEM: ${{ matrix.systems.nix-system }}
           FLAKE_ITER_FLAKEREF: ${{ inputs.flake-iter-flakeref }}
